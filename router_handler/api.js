@@ -45,7 +45,16 @@ exports.getgoodslist = (req, res) => {
           'select big_src from goods_big_logo where goods_id = ?'
         db.query(sql_big_src, item.goods_id, (err, results_Big) => {
           if (err) return res.cc(err)
-          resolve(results_Big)
+          // item.big_src = results_Big
+          results_Big.map((item) => {
+            return item.big_src
+          })
+          resolve(
+            results_Big.map((item) => {
+              return item.big_src
+            })
+          )
+          // resolve(item.big_src)
         })
       })
       const small = await new Promise(function (resolve, reject) {
@@ -53,18 +62,28 @@ exports.getgoodslist = (req, res) => {
           'select small_src from goods_small_logo where goods_id = ?'
         db.query(sql_small_src, item.goods_id, (err, results_Small) => {
           if (err) return res.cc(err)
-          resolve(results_Small)
+          // item.small_src = results_Small
+          resolve(
+            results_Small.map((item) => {
+              return item.small_src
+            })
+          )
+          // resolve(item.small_src)
         })
       })
       item.big_src = big
       item.small_src = small
+      // console.log(item)
+      // console.log(big);
       return item
     })
-    console.log()
-    res.send({
-      status: 0,
-      msg: '获取数据成功',
-      data: results
-    })
+    setTimeout(() => {
+      // console.log(results)
+      res.send({
+        status: 0,
+        msg: '获取数据成功',
+        data: results
+      })
+    }, 100)
   })
 }
