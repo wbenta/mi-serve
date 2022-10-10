@@ -37,7 +37,7 @@ exports.getgoodslist = (req, res) => {
   const sql = 'select * from goods'
   db.query(sql, (err, results) => {
     if (err) return res.cc(err)
-    var newresults = results.map(async (item, i) => {
+    results.map(async (item, i) => {
       item.big_src = []
       item.small_src = []
       const big = await new Promise(function (resolve, reject) {
