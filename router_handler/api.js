@@ -41,33 +41,21 @@ exports.getgoodslist = (req, res) => {
       item.big_src = []
       item.small_src = []
       const big = await new Promise(function (resolve, reject) {
-        const sql_big_src =
-          'select big_src from goods_big_logo where goods_id = ?'
+        const sql_big_src = 'select * from goods_big_logo where goods_id = ?'
         db.query(sql_big_src, item.goods_id, (err, results_Big) => {
           if (err) return res.cc(err)
-          // item.big_src = results_Big
-          results_Big.map((item) => {
-            return item.big_src
-          })
-          resolve(
-            results_Big.map((item) => {
-              return item.big_src
-            })
-          )
+          resolve(results_Big)
           // resolve(item.big_src)
         })
       })
       const small = await new Promise(function (resolve, reject) {
         const sql_small_src =
-          'select small_src from goods_small_logo where goods_id = ?'
+          'select * from goods_small_logo where goods_id = ?'
         db.query(sql_small_src, item.goods_id, (err, results_Small) => {
           if (err) return res.cc(err)
           // item.small_src = results_Small
-          resolve(
-            results_Small.map((item) => {
-              return item.small_src
-            })
-          )
+          resolve(results_Small)
+
           // resolve(item.small_src)
         })
       })
