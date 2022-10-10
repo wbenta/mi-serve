@@ -6,7 +6,7 @@ const moment = require('moment')
 exports.setGoods = (req, res) => {
   // console.log(req.body.form)
   const form = req.body.form
-  const dt = moment().format('YYYY-MM-DD hh:mm:ss')
+  const dt = moment().format('YYYY-MM-DD HH:mm:ss')
   console.log(dt)
   //  {goods_name: '',
   //   cate: '',
@@ -42,10 +42,9 @@ exports.setGoods = (req, res) => {
           if (results.affectedRows !== 1) return res.cc('商品上传失败！')
           const sql = 'select * from goods where goods_name=?'
           db.query(sql, form.goods_name, (err, results) => {
-            console.log(results[0])
             if (err) return res.cc(err)
             return res.send({
-              message: '商品上传成功！',
+              message: '商品修改成功！',
               status: 0,
               data: results[0].goods_id
             })

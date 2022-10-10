@@ -34,8 +34,13 @@ exports.getswiper = (req, res) => {
   })
 }
 exports.getgoodslist = (req, res) => {
-  const sql = 'select * from goods'
-  db.query(sql, (err, results) => {
+  var sql = ''
+  if (req.query.id) {
+    sql = 'select * from goods where goods_id=?'
+  } else {
+    sql = 'select * from goods'
+  }
+  db.query(sql, req.query.id, (err, results) => {
     if (err) return res.cc(err)
     results.map(async (item, i) => {
       item.big_src = []
