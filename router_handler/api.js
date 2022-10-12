@@ -46,7 +46,8 @@ exports.getgoodslist = (req, res) => {
       item.big_src = []
       item.small_src = []
       const big = await new Promise(function (resolve, reject) {
-        const sql_big_src = 'select * from goods_big_logo where goods_id = ?'
+        const sql_big_src =
+          'select * from goods_big_logo where goods_id = ? and isdelete=0'
         db.query(sql_big_src, item.goods_id, (err, results_Big) => {
           if (err) return res.cc(err)
           resolve(results_Big)
@@ -55,7 +56,7 @@ exports.getgoodslist = (req, res) => {
       })
       const small = await new Promise(function (resolve, reject) {
         const sql_small_src =
-          'select * from goods_small_logo where goods_id = ?'
+          'select * from goods_small_logo where goods_id = ? and isdelete=0'
         db.query(sql_small_src, item.goods_id, (err, results_Small) => {
           if (err) return res.cc(err)
           // item.small_src = results_Small

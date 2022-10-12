@@ -54,7 +54,7 @@ exports.insert = (req, res) => {
 }
 exports.update = (req, res) => {
   const params = req.params
-  console.log(req.body)
+  // console.log(req.body)
   if (params.type === 'nav') {
     const sql = 'update nav set title=?,src=? where id=?'
     db.query(

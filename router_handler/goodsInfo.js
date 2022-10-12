@@ -7,16 +7,7 @@ exports.setGoods = (req, res) => {
   // console.log(req.body.form)
   const form = req.body.form
   const dt = moment().format('YYYY-MM-DD HH:mm:ss')
-  console.log(dt)
-  //  {goods_name: '',
-  //   cate: '',
-  //   goods_price: '0',
-  //   goods_number: '0',
-  //   goods_weight: '0',
-  //   cat_one_id: '',
-  //   cat_two_id: '',
-  //   cat_three_id: '',
-  //   goods_introduce: ''}
+  // console.log(dt)
   const sql = 'select * from goods where goods_name=?'
   db.query(sql, form.goods_name, (err, results) => {
     if (err) return res.cc(err)
@@ -32,13 +23,14 @@ exports.setGoods = (req, res) => {
             goods_number: form.goods_number,
             goods_weight: form.goods_weight,
             goods_introduce: form.goods_introduce,
-            upd_time: dt
+            upd_time: dt,
+            isdelete: 0
           },
           form.goods_name
         ],
         (err, results) => {
           if (err) return res.cc(err)
-          console.log(results)
+          // console.log(results)
           if (results.affectedRows !== 1) return res.cc('商品上传失败！')
           const sql = 'select * from goods where goods_name=?'
           db.query(sql, form.goods_name, (err, results) => {
@@ -100,10 +92,10 @@ exports.addgoodspicturebig = (req, res) => {
     './public/goods/big/' + oldName,
     './public/goods/big/' + newName
   )
-  console.log(req.query.index)
+  // console.log(req.query.index)
   const index = +req.query.index
   const body = config.address + '/api/public/goods/big/' + newName
-  console.log(index)
+  // console.log(index)
   const sql = 'select * from goods_big_logo where big_src=? and goods_id=?'
   db.query(sql, [body, index], (err, results) => {
     if (err) return res.cc(err)
@@ -168,4 +160,36 @@ exports.addgoodspicturesmall = (req, res) => {
       })
     }
   })
+}
+exports.deleteBiglogo = (req, res) => {
+  // console.log(req.body.id)
+  const sql = 'update goods_big_logo set isdelete=1 where id=?'
+  db.query(sql, req.body.id, (err, results) => {
+    if (err) return res.cc(err)
+    if (results.affectedRows !== 1) return res.cc('数据删除失败')
+    res.cc('数据删除成功！', 0)
+  })
+  // res.cc('图片删除成功！', 0)
+}
+
+exports.deleteSmalllogo = (req, res) => {
+  // console.log(req.body.id)
+  const sql = 'update goods_small_logo set isdelete=1 where id=?'
+  db.query(sql, req.body.id, (err, results) => {
+    if (err) return res.cc(err)
+    if (results.affectedRows !== 1) return res.cc('数据删除失败')
+    res.cc('数据删除成功！', 0)
+  })
+  // res.cc('图片删除成功！', 0)
+}
+
+exports.deleteGoodsItem = (req, res) => {
+  // console.log(req.body.id)
+  const sql = 'update goods set isdelete=1 where goods_id=?'
+  db.query(sql, req.body.id, (err, results) => {
+    if (err) return res.cc(err)
+    if (results.affectedRows !== 1) return res.cc('数据删除失败')
+    res.cc('数据删除成功！', 0)
+  })
+  // res.cc('图片删除成功！', 0)
 }
