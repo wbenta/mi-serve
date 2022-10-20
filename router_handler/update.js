@@ -152,3 +152,28 @@ exports.updateswiperhref = (req, res) => {
     res.cc('数据修改成功！', 0)
   })
 }
+
+// 还原
+exports.reduction = (req, res) => {
+  // console.log(req.body)
+  var sql = ''
+  if (req.body.item.id) {
+    sql =
+      'update ' +
+      req.body.title +
+      ' set isdelete=0 where id=' +
+      req.body.item.id
+  } else if (req.body.item.goods_id) {
+    sql =
+      'update ' +
+      req.body.title +
+      ' set isdelete=0 where  goods_id=' +
+      req.body.item.goods_id
+  }
+
+  db.query(sql, (err, results) => {
+    if (err) return res.cc(err)
+    if (results.affectedRows !== 1) return res.cc('数据还原失败')
+    res.cc('数据还原成功！', 0)
+  })
+}

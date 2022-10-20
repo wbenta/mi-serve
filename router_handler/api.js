@@ -81,3 +81,34 @@ exports.getgoodslist = (req, res) => {
     }, 100)
   })
 }
+
+exports.recycle = (req, res) => {
+  const table = [
+    'nav',
+    'cate',
+    'goods',
+    'goods_big_logo',
+    'goods_small_logo',
+    'swiper'
+  ]
+  var resultsdata = []
+  table.map(async (item, i) => {
+    const data = await new Promise(function (resolve, reject) {
+      // console.log(item)
+      const sql = 'select * from ' + item + ' where isdelete = 1'
+      db.query(sql, (err, results) => {
+        if (err) return res.cc(err)
+        resolve(results)
+      })
+    })
+    // console.log();
+    resultsdata.push({ id: i, title: item, data })
+  })
+  setTimeout(() => {
+    res.send({
+      status: 0,
+      msg: '获取数据成功',
+      data: resultsdata
+    })
+  }, 100)
+}

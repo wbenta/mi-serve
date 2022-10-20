@@ -10,6 +10,7 @@ router.get('/getnav', api.getnav)
 router.get('/getcate', api.getcate)
 router.get('/getswiper', api.getswiper)
 router.get('/getgoodslist', api.getgoodslist)
+router.get('/recycle', api.recycle)
 
 // 4. 向外导出路由对象
 module.exports = router
