@@ -177,3 +177,24 @@ exports.reduction = (req, res) => {
     res.cc('数据还原成功！', 0)
   })
 }
+
+// 删除
+exports.deleterow = (req, res) => {
+  // console.log(req.body)
+  var sql = ''
+  if (req.body.item.id) {
+    sql = 'delete from ' + req.body.title + ' where id=' + req.body.item.id
+  } else if (req.body.item.goods_id) {
+    sql =
+      'delete from ' +
+      req.body.title +
+      ' where  goods_id=' +
+      req.body.item.goods_id
+  }
+
+  db.query(sql, (err, results) => {
+    if (err) return res.cc(err)
+    if (results.affectedRows !== 1) return res.cc('数据删除失败')
+    res.cc('数据删除成功！', 0)
+  })
+}

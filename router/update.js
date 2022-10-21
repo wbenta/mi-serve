@@ -19,5 +19,6 @@ router.post('/setswiper', upload.single('swiper'), update.setswiper)
 router.post('/updateswiperhref', update.updateswiperhref)
 router.post('/deleteswiper', update.deleteswiper)
 router.post('/reduction', update.reduction)
+router.post('/deleterow', update.deleterow)
 // 4. 向外导出路由对象
 module.exports = router
