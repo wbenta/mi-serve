@@ -92,8 +92,8 @@ exports.recycle = (req, res) => {
     'swiper'
   ]
   var resultsdata = []
-  table.map((item, i) => {
-    const data = new Promise((resolve, reject) => {
+  table.map(async (item, i) => {
+    const data = await new Promise(function (resolve, reject) {
       // console.log(item)
       const sql = 'select * from ' + item + ' where isdelete = 1'
       db.query(sql, (err, results) => {
@@ -102,9 +102,7 @@ exports.recycle = (req, res) => {
       })
     })
     // console.log();
-    data.then((resolve) => {
-      resultsdata.push({ id: i, title: item, data: resolve })
-    })
+    resultsdata.push({ id: i, title: item, data })
   })
   setTimeout(() => {
     res.send({
